@@ -15,7 +15,7 @@ interface Props {
 
 const { title, seo, og } = Astro.props;
 
-const siteSettings = await getEntry('settings', 'siteSettingsPourdavoud');
+const siteSettings = await getEntry('settings', 'siteSettingsYarshater');
 
 const ogImage = urlForImage(og?.image ?? siteSettings?.data.openGraph?.image!);
 
@@ -61,17 +61,17 @@ const url = Astro.url;
 <!-- Sitemap -->
 <link href="/sitemap-index.xml" rel="sitemap" />
 <!-- Favicon -->
-<link href="/pourdavoud-favicon.svg" rel="icon" type="image/svg+xml" />
+<link href="/yarshater-favicon.svg" rel="icon" type="image/svg+xml" />
 <link
-    href="/pourdavoud-favicon-32.png"
+    href="/yarshater-favicon-32.png"
     rel="icon"
     sizes="32x32"
     type="image/png"
 />
 <link
-    href="/pourdavoud-favicon-16.png"
+    href="/yarshater-favicon-16.png"
     rel="icon"
     sizes="16x16"
     type="image/png"
 />
-<link href="/pourdavoud-favicon.svg" rel="shortcut icon" />
+<link href="/yarshater-favicon.svg" rel="shortcut icon" />

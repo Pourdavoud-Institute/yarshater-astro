@@ -4,7 +4,7 @@ import {
     SEO_PROJECTION,
 } from '@lib/sanity/groqFragments/commonProjections';
 
-export const SITE_SETTINGS_QUERY = groq`*[_type == "siteSettingsPourdavoud"] {
+export const SITE_SETTINGS_QUERY = groq`*[_type == "siteSettingsYarshater"] {
     _id,
     _type,
     siteName,

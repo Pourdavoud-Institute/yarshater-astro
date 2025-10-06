@@ -12,7 +12,7 @@ export const events = defineCollection({
         const events = await sanityClient.fetch<SanityDocument[]>(
             EVENTS_QUERY,
             {
-                workspaceID: workspaces.pourdavoud.id,
+                workspaceID: workspaces.yarshater.id,
             },
         );
 

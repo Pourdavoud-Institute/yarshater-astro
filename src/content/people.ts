@@ -14,7 +14,7 @@ export const people = defineCollection({
         const people = await sanityClient.fetch<SanityDocument[]>(
             PEOPLE_QUERY,
             {
-                workspaceID: workspaces.pourdavoud.id,
+                workspaceID: workspaces.yarshater.id,
             },
         );
 
@@ -93,7 +93,7 @@ export const speakers = defineCollection({
         const speakers = await sanityClient.fetch<SanityDocument[]>(
             SPEAKERS_QUERY,
             {
-                workspaceID: workspaces.pourdavoud.id,
+                workspaceID: workspaces.yarshater.id,
             },
         );
 

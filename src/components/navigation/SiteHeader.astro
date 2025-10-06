@@ -8,7 +8,7 @@ import { getEntry } from 'astro:content';
 // get main nav by id
 const navigation = await getEntry(
     'navigation',
-    'b2b3beb7-b8b4-44bb-9e5d-45c46f45a0b9'
+    '6ddf8771-1afc-4e28-9a15-dff9ee123c98'
 );
 
 const featuredNavItems = [
@@ -46,13 +46,13 @@ const featuredNavItems = [
             >
                 <UCLALogo />
             </a>
-            <a class="logo-link pourdavoud" href="/">
+            <a class="logo-link yarshater" href="/">
                 <img
-                    alt="Pourdavoud Institute logo"
+                    alt="Yarshater Center logo"
                     decoding="auto"
                     loading="eager"
-                    src="/images/logos/pourdavoud-logo-web.svg"
-                    width="325"
+                    src="/images/logos/yarshater-logo-web.svg"
+                    width="275"
                 />
             </a>
         </div>
@@ -93,10 +93,7 @@ const featuredNavItems = [
     }
 
     .logos {
-        /* position: absolute;
-        top: 50%;
-        transform: translateY(-50%); */
-        padding-block: 1rem;
+        padding-block: 10px;
         padding-inline-start: var(--gutter-spacing);
     }
 

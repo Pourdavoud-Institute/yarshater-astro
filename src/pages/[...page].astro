@@ -13,7 +13,7 @@ export async function getStaticPaths() {
     return pages.map((page) => ({
         params: {
             page:
-                page.data.slug === `/home-${workspaces.pourdavoud.slug}`
+                page.data.slug === `/home-${workspaces.yarshater.slug}`
                     ? '/'
                     : page.data.slug,
         },

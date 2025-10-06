@@ -21,7 +21,7 @@ export const videos = defineCollection({
         const videos = await sanityClient.fetch<SanityDocument[]>(
             VIDEOS_QUERY,
             {
-                workspaceID: workspaces.pourdavoud.id,
+                workspaceID: workspaces.yarshater.id,
             },
         );
 

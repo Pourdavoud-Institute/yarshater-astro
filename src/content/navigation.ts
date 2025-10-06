@@ -11,7 +11,7 @@ export const navigation = defineCollection({
         const navigation = await sanityClient.fetch<SanityDocument[]>(
             NAVIGATION_QUERY,
             {
-                workspaceID: workspaces.pourdavoud.id,
+                workspaceID: workspaces.yarshater.id,
             },
         );
 

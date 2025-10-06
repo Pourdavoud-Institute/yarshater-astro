@@ -26,7 +26,7 @@ export const eventCategories = defineCollection({
         const eventCategories = await sanityClient.fetch<SanityDocument[]>(
             EVENT_CATEGORIES_QUERY,
             {
-                workspaceID: workspaces.pourdavoud.id,
+                workspaceID: workspaces.yarshater.id,
             },
         );
 
@@ -56,7 +56,7 @@ export const postCategories = defineCollection({
         const postCategories = await sanityClient.fetch<SanityDocument[]>(
             POST_CATEGORIES_QUERY,
             {
-                workspaceID: workspaces.pourdavoud.id,
+                workspaceID: workspaces.yarshater.id,
             },
         );
 

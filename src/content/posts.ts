@@ -9,7 +9,7 @@ import { workspaces } from '@lib/sanity/workspaces';
 export const posts = defineCollection({
     loader: async () => {
         const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY, {
-            workspaceID: workspaces.pourdavoud.id,
+            workspaceID: workspaces.yarshater.id,
         });
 
         return posts.map((post) => ({

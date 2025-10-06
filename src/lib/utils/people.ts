@@ -14,7 +14,7 @@ export const getPersonRole = (
         person.data.internalRoles.length > 0
     ) {
         role = person.data.internalRoles.find(
-            (role) => role.organization._id == workspaces.pourdavoud.id,
+            (role) => role.organization._id == workspaces.yarshater.id,
         )?.title;
     } else if (person.data.facultyTitle) {
         role = person.data.facultyTitle;

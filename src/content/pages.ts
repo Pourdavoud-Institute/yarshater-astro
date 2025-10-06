@@ -23,7 +23,7 @@ export type PageHeader = z.infer<typeof PageHeader>;
 export const pages = defineCollection({
     loader: async () => {
         const pages = await sanityClient.fetch<SanityDocument[]>(PAGES_QUERY, {
-            workspaceID: workspaces.pourdavoud.id,
+            workspaceID: workspaces.yarshater.id,
         });
 
         return pages.map((page) => ({

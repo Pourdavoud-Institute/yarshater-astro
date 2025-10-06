@@ -10,7 +10,7 @@ export const publications = defineCollection({
         const publications = await sanityClient.fetch<SanityDocument[]>(
             PUBLICATIONS_QUERY,
             {
-                workspaceID: workspaces.pourdavoud.id,
+                workspaceID: workspaces.yarshater.id,
             },
         );
 

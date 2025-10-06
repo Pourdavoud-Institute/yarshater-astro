@@ -17,7 +17,7 @@ export const settings = defineCollection({
 
     schema: z.object({
         _id: z.string(),
-        _type: z.literal('siteSettingsPourdavoud'),
+        _type: z.literal('siteSettingsYarshater'),
         siteName: z.string(),
         siteDomain: z.string(),
         seo: SEOBlock,
