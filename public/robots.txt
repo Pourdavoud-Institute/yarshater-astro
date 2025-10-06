@@ -10,4 +10,4 @@ User-agent: Applebot-Extended
 User-agent: PerplexityBot
 Disallow: /
 
-Sitemap: https://pourdavoud.ucla.edu/sitemap-index.xml
+Sitemap: https://yarshater.ucla.edu/sitemap-index.xml

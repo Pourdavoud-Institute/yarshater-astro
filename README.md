@@ -1,6 +1,6 @@
-# Pourdavoud Institute Website (Front End)
+# Yarshater Center Website (Front End)
 
-This repository contains code that builds the front end files (HTML, CSS, and JavaScript) for the [UCLA Pourdavoud Institute](https://pourdavoud.ucla.edu/) website. It does not contain any code or settings for the Sanity.io headless content management system, which is tracked elsewhere. Use this project to track changes to template files, add new site integrations, or set up a local development environment.
+This repository contains code that builds the front end files (HTML, CSS, and JavaScript) for the [UCLA Yarshater Center](https://yarshater.ucla.edu/) website. It does not contain any code or settings for the Sanity.io headless content management system, which is tracked elsewhere. Use this project to track changes to template files, add new site integrations, or set up a local development environment.
 
 ## Features
 
@@ -27,8 +27,8 @@ To get started locally, ensure that you have [Node](https://nodejs.org/en) and t
 Navigate to your projects directory and `git clone` the repository:
 
 ```sh
-git clone https://github.com/Pourdavoud-Institute/pourdavoud-astro.git
-cd pourdavoud-astro
+git clone https://github.com/Pourdavoud-Institute/yarshater-astro.git
+cd yarshater-astro
 ```
 
 ### 3. Install dependencies
