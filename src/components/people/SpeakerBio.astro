@@ -1,0 +1,145 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import RichTextBlocks from '@components/richText/RichTextBlocks.astro';
+import SanityImage from '@components/SanityImage.astro';
+
+interface Props {
+    speakers: CollectionEntry<'speakers'>[];
+}
+
+const { speakers } = Astro.props;
+---
+
+<div class="speaker-bio">
+    <h2 class="small-title" id="about-the-speaker">
+        About the {speakers.length > 1 ? 'Speakers' : 'Speaker'}
+    </h2>
+    <div class="speaker-list">
+        {
+            speakers.map((speaker) => (
+                <div
+                    class:list={[
+                        'speaker',
+                        speaker.data.image && 'with-sidebar',
+                    ]}
+                >
+                    {speaker.data.image && (
+                        <div class="sidebar-panel">
+                            <SanityImage
+                                alt={speaker.data.image.alt}
+                                aspectRatio={[1, 1]}
+                                classes="headshot"
+                                crop={false}
+                                source={speaker.data.image}
+                                width={200}
+                            />
+                        </div>
+                    )}
+                    <div class="main-panel">
+                        <header>
+                            <h3>{speaker.data.title}</h3>
+                            {speaker.data.institution && (
+                                <p class="institution">
+                                    {speaker.data.institution}
+                                </p>
+                            )}
+                        </header>
+                        {speaker.data.biography &&
+                            speaker.data.biography.length > 0 && (
+                                <div class="rich-text | flow">
+                                    <RichTextBlocks
+                                        blocks={speaker.data.biography}
+                                    />
+                                </div>
+                            )}
+                        {speaker.data.facultyLink && (
+                            <div class="cta">
+                                <a
+                                    class="button-link with-icon"
+                                    data-style="primary"
+                                    href={speaker.data.facultyLink}
+                                    target="_blank"
+                                >
+                                    <span>View Profile</span>
+                                    <svg
+                                        aria-hidden="true"
+                                        class="ucla-icon__link-external"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path d="M19 19H5V5H12V3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V12H19V19ZM14 3V5H17.59L7.76 14.83L9.17 16.24L19 6.41V10H21V3H14Z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</div>
+
+<style>
+    .speaker-bio {
+        padding: 2.5rem 3rem 3rem;
+        background-color: var(--ucla-gray-1);
+    }
+
+    .small-title {
+        font-size: var(--step--1);
+        color: var(--ucla-primary-blue);
+    }
+
+    .speaker-list {
+        margin-block-start: var(--space-xs);
+    }
+
+    .institution {
+        margin-block-start: var(--space-3xs);
+        font-style: italic;
+    }
+
+    .rich-text {
+        margin-block-start: var(--space-m);
+        font-size: var(--step-0);
+    }
+
+    .cta {
+        margin-block-start: var(--space-m);
+    }
+
+    .with-sidebar {
+        --main-min-width: 75%;
+        --sidebar-min-width: 8rem;
+        --sidebar-gap: 1.25rem;
+        margin-block-start: var(--space-m);
+    }
+
+    .sidebar-panel {
+        & + .main-panel {
+            margin-block-start: var(--space-s);
+        }
+    }
+
+    .headshot {
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+        border-radius: 999px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .with-sidebar {
+            --main-min-width: 80%;
+            --sidebar-gap: 0.5rem;
+        }
+    }
+
+    @media screen and (max-width: 640px) {
+        .speaker-bio {
+            padding: 2rem 1.5rem 1.5rem;
+        }
+    }
+</style>

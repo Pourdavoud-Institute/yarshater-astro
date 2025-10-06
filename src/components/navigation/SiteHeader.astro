@@ -1,0 +1,145 @@
+---
+import FeaturedNavigation from '@components/navigation/FeaturedNavigation.astro';
+import MainNavigation from '@components/navigation/MainNavigation.astro';
+import MobileNavigation from '@components/navigation/MobileNavigation.astro';
+import UCLALogo from '@components/svg/UCLALogo.astro';
+import { getEntry } from 'astro:content';
+
+// get main nav by id
+const navigation = await getEntry(
+    'navigation',
+    'b2b3beb7-b8b4-44bb-9e5d-45c46f45a0b9'
+);
+
+const featuredNavItems = [
+    {
+        title: 'Events',
+        url: '/events',
+    },
+    {
+        title: 'Research',
+        url: '/research',
+    },
+    {
+        title: 'Publications',
+        url: '/publications',
+    },
+    {
+        title: 'Media',
+        url: '/media/video-library',
+    },
+];
+---
+
+<header class:list={['site-header', Astro.url.pathname == '/' && 'home']}>
+    <!-- Skip to Content Link -->
+    <a class="skip-link | small-title text-step--1" href="#main-content">
+        Skip to Content
+    </a>
+    <div class="nav-wrapper">
+        <div class="logos | cluster">
+            <a
+                aria-label="UCLA Logo"
+                class="logo-link ucla"
+                href="https://www.ucla.edu"
+                target="_blank"
+            >
+                <UCLALogo />
+            </a>
+            <a class="logo-link pourdavoud" href="/">
+                <img
+                    alt="Pourdavoud Institute logo"
+                    decoding="auto"
+                    loading="eager"
+                    src="/images/logos/pourdavoud-logo-web.svg"
+                    width="325"
+                />
+            </a>
+        </div>
+        <div class="relative">
+            <MainNavigation navItems={navigation?.data.items} />
+            <FeaturedNavigation featuredNavItems={featuredNavItems} />
+            <MobileNavigation
+                featuredNavItems={featuredNavItems}
+                navItems={navigation?.data.items}
+            />
+        </div>
+    </div>
+</header>
+
+<style>
+    .site-header {
+        position: relative;
+        border-block-start: 3px solid var(--ucla-primary-blue);
+        box-shadow: var(--shadow-base);
+        z-index: 50;
+
+        &.home {
+            position: absolute;
+            width: 100%;
+            background-color: var(--ucla-white);
+        }
+    }
+
+    .nav-wrapper {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        & > :last-child {
+            flex-grow: 1;
+        }
+    }
+
+    .logos {
+        /* position: absolute;
+        top: 50%;
+        transform: translateY(-50%); */
+        padding-block: 1rem;
+        padding-inline-start: var(--gutter-spacing);
+    }
+
+    .logo-link {
+        &:hover {
+            opacity: 0.75;
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        .nav-wrapper {
+            align-items: center;
+            padding-inline-end: var(--gutter-spacing);
+        }
+    }
+
+    @media screen and (max-width: 640px) {
+        .nav-wrapper {
+            padding-inline-end: 1rem;
+        }
+
+        .logos {
+            padding-inline-start: 1rem;
+
+            & .logo-link.ucla {
+                width: 5rem;
+            }
+
+            & img {
+                max-width: 15rem;
+            }
+        }
+    }
+
+    @media screen and (max-width: 450px) {
+        .logos {
+            & .logo-link.ucla {
+                width: 4rem;
+            }
+
+            & img {
+                max-width: 13rem;
+            }
+        }
+    }
+</style>

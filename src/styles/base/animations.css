@@ -1,0 +1,66 @@
+.image-scale-in {
+    &:hover img {
+        transform: scale(1.06);
+        filter: brightness(0.85);
+    }
+
+    & img {
+        transition: all 0.5s ease-in-out;
+    }
+}
+
+@keyframes popover-in {
+    from {
+        transform: scale(0.9) translate(-50%, -12px);
+    }
+
+    to {
+        transform: scale(1) translate(-50%, 0px);
+    }
+}
+
+@keyframes popover-out {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scael(0.9);
+    }
+}
+
+@keyframes context-alert-in {
+    from {
+        opacity: 0;
+        transform: translateY(0.25rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0rem);
+    }
+}
+
+.transition-opacity {
+    transition: opacity var(--transition-timing, 0.2s) ease;
+}
+
+.transition-opacity__start {
+    opacity: 0;
+}
+
+.transition-opacity__end {
+    opacity: 1;
+}
+
+.transition-panel-slide {
+    transition: transform var(--transition-timing, 0.3s) ease-in-out;
+}
+
+.transition-panel-slide__start {
+    transform: translateX(100%);
+}
+
+.transition-panel-slide__end {
+    transform: translateX(0%);
+}

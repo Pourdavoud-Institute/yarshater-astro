@@ -1,0 +1,54 @@
+---
+import type {
+    OGBlock,
+    SEOBlock,
+} from '@content/schemaFragments/sanityComponents';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+import type { Page } from '@lib/utils/types';
+
+interface Props {
+    // page: Page;
+    id: string;
+    title: string;
+    template: string;
+    footerMargin?: boolean | null;
+    seo?: SEOBlock;
+    og?: OGBlock;
+    filterType?:
+        | 'category'
+        | 'event'
+        | 'page'
+        | 'person'
+        | 'post'
+        | 'publication'
+        | 'video'; // the resource type for constructing pagefind index filters
+}
+
+const {
+    id,
+    title,
+    template,
+    footerMargin = false,
+    seo,
+    og,
+    filterType = 'page',
+} = Astro.props;
+---
+
+<BaseLayout og={og} seo={seo} title={title}>
+    <main
+        class:list={['page', { 'footer-margin': footerMargin }]}
+        data-filterType={filterType}
+        data-id={id}
+        data-pagefind-body
+        data-pagefind-filter={filterType == 'page'
+            ? `type:page`
+            : `type[data-filterType], type:page`}
+        data-template={template}
+        id="main-content"
+        tabindex="-1"
+    >
+        <slot />
+    </main>
+</BaseLayout>
