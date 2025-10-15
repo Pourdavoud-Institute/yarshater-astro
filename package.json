@@ -1,7 +1,18 @@
 {
     "name": "yarshater-astro",
+    "description": "A front-end website template for the UCLA Yarshater Center, built with Astro.",
     "type": "module",
     "version": "1.0.0",
+    "author": "Daniel Saunders <dtsaunders@humnet.ucla.edu> (https://daniel-saunders.com/)",
+    "license": "MIT",
+    "keywords": [
+        "ucla",
+        "academic",
+        "university",
+        "static site",
+        "blog",
+        "astro"
+    ],
     "scripts": {
         "dev": "astro dev",
         "build": "astro build && npm run index",
