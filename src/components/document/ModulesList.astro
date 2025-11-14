@@ -7,7 +7,6 @@ import ColumnsGroup from '@components/modules/ColumnsGroup.astro';
 import EventsPreviewList from '@components/modules/EventsPreviewList.astro';
 import Gallery from '@components/modules/Gallery.astro';
 import PeopleList from '@components/modules/PeopleList.astro';
-import PodcastFeed from '@components/modules/PodcastFeed.astro';
 import PostsList from '@components/modules/PostsList.astro';
 import PublicationsList from '@components/modules/PublicationsList.astro';
 import RelatedLinks from '@components/modules/RelatedLinks.astro';
@@ -42,8 +41,6 @@ const { modules } = Astro.props;
                     return <Gallery module={module} />;
                 case 'peopleList':
                     return <PeopleList module={module} />;
-                case 'podcastFeed':
-                    return <PodcastFeed module={module} />;
                 case 'postsList':
                     return <PostsList module={module} />;
                 case 'publicationsList':
