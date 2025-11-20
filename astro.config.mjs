@@ -6,6 +6,8 @@ import preact from '@astrojs/preact';
 import sanity from '@sanity/astro';
 import sitemap from '@astrojs/sitemap';
 
+import vue from '@astrojs/vue';
+
 // https://astro.build/config
 export default defineConfig({
     site: 'https://yarshater.ucla.edu',
@@ -18,6 +20,7 @@ export default defineConfig({
         }),
         preact({ compat: true }),
         sitemap(),
+        vue(),
     ],
 
     image: {

@@ -13,7 +13,7 @@
             "@lib/*": ["src/lib/*"],
             "@styles/*": ["src/styles/*"]
         },
-        "jsx": "react-jsx",
+        "jsx": "preserve",
         "jsxImportSource": "preact"
     }
 }
