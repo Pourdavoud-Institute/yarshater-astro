@@ -2,7 +2,6 @@
 import browserslist from 'browserslist';
 import { browserslistToTargets } from 'lightningcss';
 import { defineConfig } from 'astro/config';
-import preact from '@astrojs/preact';
 import sanity from '@sanity/astro';
 import sitemap from '@astrojs/sitemap';
 
@@ -18,7 +17,6 @@ export default defineConfig({
             dataset: 'production',
             useCdn: false,
         }),
-        preact({ compat: true }),
         sitemap(),
         vue(),
     ],
