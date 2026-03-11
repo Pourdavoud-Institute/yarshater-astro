@@ -2,24 +2,14 @@
 import browserslist from 'browserslist';
 import { browserslistToTargets } from 'lightningcss';
 import { defineConfig } from 'astro/config';
-import sanity from '@sanity/astro';
 import sitemap from '@astrojs/sitemap';
-
 import vue from '@astrojs/vue';
 
 // https://astro.build/config
 export default defineConfig({
     site: 'https://yarshater.ucla.edu',
 
-    integrations: [
-        sanity({
-            projectId: '3z4imst3',
-            dataset: 'production',
-            useCdn: false,
-        }),
-        sitemap(),
-        vue(),
-    ],
+    integrations: [sitemap(), vue()],
 
     image: {
         domains: ['cdn.sanity.io'],
