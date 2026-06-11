@@ -33,6 +33,11 @@ export const PAGES_QUERY = groq`*[_type == "page" && $workspaceID in workspaces[
         title,
         "slug": slug.current
     },
+    "children": coalesce(
+        *[_type == "page" && ^._id in parent[]._ref] {
+            _id
+        }, []
+    ),
     template,
     indexCollection,
     "header": pageHeader {
