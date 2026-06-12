@@ -1,0 +1,143 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const title = 'Zoroaster in History';
+---
+
+<BaseLayout og={undefined} seo={undefined} title={title}>
+    <main
+        class="page footer-margin"
+        data-template="pdfShow"
+        id="main-content"
+        tabindex="-1"
+    >
+        <div class="content-wrapper with-sidebar">
+            <div class="main-panel">
+                <header>
+                    <p class="small-title eyebrow">Publication</p>
+                    <h1>{title}</h1>
+                </header>
+                <div
+                    class="pdf-wrapper"
+                    x-data=`{
+                        init() {
+                            document.addEventListener('adobe_dc_view_sdk.ready', () => {
+                                const adobeViewer = new AdobeDC.View({
+                                    clientId: '4078d45e87694d58a59e54ff25805ff7',
+                                    divId: 'pdf-view'
+                                });
+                                adobeViewer.previewFile({
+                                    content: {
+                                        location: {
+                                            url: '/docs/zoroaster-in-history_complete_ocr.pdf'
+                                        }
+                                    },
+                                    metaData: {
+                                        fileName: '${title}',
+                                        hasReadOnlyAccess: true
+                                    }
+                                }, 
+                                { 
+                                    embedMode: 'SIZED_CONTAINER',
+                                    showFullScreen: false,
+                                    showDownloadPDF: false,
+                                });
+                            });
+                        },
+                        showFull() {
+                            const adobeViewer = new AdobeDC.View({
+                                clientId: '4078d45e87694d58a59e54ff25805ff7',
+                                divId: 'pdf-view'
+                            });
+                            adobeViewer.previewFile({
+                                content: {
+                                    location: {
+                                        url: '/docs/zoroaster-in-history_complete_ocr.pdf'
+                                    }
+                                },
+                                metaData: {
+                                    fileName: '${title}',
+                                    hasReadOnlyAccess: true
+                                }
+                            }, 
+                            { 
+                                embedMode: 'LIGHT_BOX',
+                                showDownloadPDF: true,
+                                defaultViewMode: 'TWO_COLUMN_FIT_PAGE'
+                            });
+                        }
+                    }`
+                >
+                    <button
+                        class="button-link"
+                        data-style="primary"
+                        x-on:click="showFull">View Fullscreen</button
+                    >
+                    <div id="pdf-view"></div>
+                </div>
+            </div>
+            <div class="sidebar-panel">
+                <div class="small-title">Publication Details</div>
+                <dl class="info">
+                    <dt>Author</dt>
+                    <dd>Gherardo Gnoli</dd>
+                    <dt>Date</dt>
+                    <dd>2000</dd>
+                    <dt>Series</dt>
+                    <dd>
+                        <em>Biennial Yarshater Lecture Series</em> (UCLA, April 21–25,
+                        1997)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </main>
+</BaseLayout>
+
+<style>
+    header {
+        margin-block-start: var(--space-l);
+    }
+
+    .eyebrow {
+        font-size: var(--step--1);
+    }
+
+    h1 {
+        font-size: var(--step-4);
+    }
+
+    .with-sidebar {
+        --sidebar-gap: var(--space-xl);
+        --sidebar-min-width: 18rem;
+    }
+
+    .pdf-wrapper {
+        margin-block-start: var(--space-l);
+        height: 70dvh;
+    }
+
+    .sidebar-panel {
+        margin-block-start: calc(var(--space-3xl) + 0.5rem);
+
+        & .small-title {
+            font-size: var(--step--1);
+            color: var(--ucla-primary-blue);
+            border-block-end: 1px solid var(--site-border);
+            margin-block-end: var(--space-2xs);
+            padding-block-end: var(--space-3xs);
+        }
+    }
+
+    .info {
+        display: grid;
+        grid-template-columns: 5rem 1fr;
+        row-gap: 0.5rem;
+        column-gap: 0.5rem;
+        font-size: var(--step--1);
+
+        & dt {
+            font-weight: 700;
+        }
+    }
+</style>
