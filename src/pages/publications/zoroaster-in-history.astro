@@ -1,0 +1,187 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const documentURL = '/docs/zoroaster-in-history_complete_ocr.pdf';
+const adobeClientID = '4078d45e87694d58a59e54ff25805ff7';
+
+// Content
+const title = 'Zoroaster in History';
+const previewBlocks = [
+    'Zoroaster, the prophet of ancient Iran and the founder of a religion which is still alive and practiced today, was an extraordinary figure with a wide sphere of influence both in the Iranian world and in the philosophical and religious thought of the West, from Hellenism to the Renaissance and the Enlightenment.',
+    'The historical dating of Zoroaster has been a matter of much debate and dispute. Different theses, including those in support of an early chronology, and those that place him in a remote and nebulous past, as well as an alleged unhistoricity of Zoroaster, are here discussed in great depth while an attempt is made to demonstrate the validity of the thesis which situates him in historical times. Zoroaster is thus placed in the period between the last two decades of the seventh to the middle of the sixth century B.C., when the Medes and Persians became the protagonists in ancient history.',
+];
+const authorBlocks = [
+    'Professor Gherardo Gnoli was born in Rome in 1937 and studied Classics and Oriental languages there at the Faculty of Letters and Philosophy. He was Professor of Iranian Philology at the Oriental Institute of Naples (1965–93) and, since 1993, has taught at the University of Rome as Professor of the Religious History of Iran and Central Asia.',
+    "An Iranist of great distinction, Professor Gnoli is a past Rector of the Oriental Institute of Naples (1970–78) and has served, from 1979, as the President of Istituto Italiano per il Medio ed Estremo Oriente (the Italian Institute for the Middle and Far East) which later merged with the Istituto Italo-Africano and took the name of Istituto Italiano per l'Africa e l'Oriente (the Italian Institute for Africa and the Orient). He is a member of the Institut de France and the Russian Academy of Sciences, a corresponding member of the Accademia dei Lincei and an honorary member of the Société Asiatique. He was chairman of the steering committee of the Societas Iranologica Europaea (1981-83) and treasurer of this international association (1983-99).",
+    "Professor Gnoli has taken part in many excavations and scientific and cultural missions and written extensively on historical and philological subjects relating to Iran and the Middle East. His publications include <em>Ricerche storiche sul Sistan antico</em> (1967); <em>Zoroaster's Time and Homeland</em> (1980); <em>De Zoroastre à Mani</em> (1985); and <em>The Idea of Iran. An Essay on its Origin</em> (1989).",
+];
+---
+
+<BaseLayout og={undefined} seo={undefined} title={`${title} • Publications`}>
+    <main
+        class="page footer-margin"
+        data-template="pdfShow"
+        id="main-content"
+        tabindex="-1"
+    >
+        <div class="content-wrapper with-sidebar">
+            <div class="main-panel">
+                <header>
+                    <p class="small-title eyebrow">Publication</p>
+                    <h1>{title}</h1>
+                </header>
+                <div class="preview | flow" data-tempo="allegro">
+                    {previewBlocks.map((p) => <p set:html={p} />)}
+                </div>
+                <div
+                    class="pdf-wrapper"
+                    x-data=`{
+                        init() {
+                            document.addEventListener('adobe_dc_view_sdk.ready', () => {
+                                const adobeViewer = new AdobeDC.View({
+                                    clientId: '${adobeClientID}',
+                                    divId: 'pdf-view'
+                                });
+                                adobeViewer.previewFile({
+                                    content: {
+                                        location: {
+                                            url: '${documentURL}'
+                                        }
+                                    },
+                                    metaData: {
+                                        fileName: '${title}',
+                                        hasReadOnlyAccess: true
+                                    }
+                                }, 
+                                { 
+                                    embedMode: 'FULL_WINDOW',
+                                    showAnnotationTools: false,
+                                    showFullScreen: true,
+                                    showDownloadPDF: true,
+                                    defaultViewMode: 'FIT_PAGE'
+                                });
+                            });
+                        },
+                        showFullscreen() {
+                            const adobeViewer = new AdobeDC.View({
+                                clientId: '${adobeClientID}',
+                                divId: 'pdf-fullscreen'
+                            });
+                            adobeViewer.previewFile({
+                                content: {
+                                    location: {
+                                        url: '${documentURL}'
+                                    }
+                                },
+                                metaData: {
+                                    fileName: '${title}',
+                                    hasReadOnlyAccess: true
+                                }
+                            }, 
+                            { 
+                                embedMode: 'LIGHT_BOX',
+                                showDownloadPDF: true,
+                                defaultViewMode: 'TWO_COLUMN_FIT_PAGE'
+                            });
+                        }
+                    }`
+                >
+                    <!-- <button
+                        class="button-link"
+                        data-style="primary"
+                        x-on:click="showFullscreen">View Fullscreen</button
+                    > -->
+                    <div class="pdf-window" id="pdf-view"></div>
+                </div>
+                <div class="author-section">
+                    <h2>About the Author</h2>
+                    <div class="preview | flow" data-tempo="allegro">
+                        {authorBlocks.map((p) => <p set:html={p} />)}
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-panel">
+                <h2 class="small-title">Publication Details</h2>
+                <dl class="info">
+                    <dt>Author</dt>
+                    <dd>Gherardo Gnoli</dd>
+                    <dt>Date</dt>
+                    <dd>2000</dd>
+                    <dt>Series</dt>
+                    <dd>
+                        <em>Biennial Yarshater Lecture Series</em> (UCLA, April 21–25,
+                        1997)
+                    </dd>
+                    <dt>URL</dt>
+                    <dd>
+                        <a href={documentURL} target="_blank">Download PDF</a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </main>
+</BaseLayout>
+
+<style>
+    header {
+        margin-block-start: var(--space-xl);
+    }
+
+    .eyebrow {
+        font-size: var(--step--1);
+    }
+
+    h1 {
+        font-size: var(--step-4);
+    }
+
+    .preview {
+        margin-block-start: var(--space-l);
+    }
+
+    .author-section {
+        margin-block-start: var(--space-2xl);
+
+        & h2 {
+            font-size: var(--step-3);
+        }
+    }
+
+    .with-sidebar {
+        --sidebar-gap: var(--space-xl);
+        --sidebar-min-width: 18rem;
+    }
+
+    .pdf-wrapper {
+        margin-block-start: var(--space-l);
+    }
+
+    .pdf-window {
+        height: 70dvh;
+        border: 1px solid var(--site-border);
+    }
+
+    .sidebar-panel {
+        margin-block-start: calc(var(--space-3xl) + 0.5rem);
+
+        & .small-title {
+            font-size: var(--step--1);
+            color: var(--ucla-primary-blue);
+            border-block-end: 1px solid var(--site-border);
+            margin-block-end: var(--space-2xs);
+            padding-block-end: var(--space-3xs);
+        }
+    }
+
+    .info {
+        display: grid;
+        grid-template-columns: 5rem 1fr;
+        row-gap: 0.5rem;
+        column-gap: 0.5rem;
+        font-size: var(--step--1);
+
+        & dt {
+            font-weight: 700;
+        }
+    }
+</style>
