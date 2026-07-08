@@ -23,7 +23,7 @@ export async function getStaticPaths() {
         const type = publication.data.type + 's';
         return {
             params: {
-                publication: `/publications/${type}/${slugParts.join('/')}`,
+                work: `/publications/${type}/${slugParts.join('/')}`,
             },
             props: { publication },
         };
