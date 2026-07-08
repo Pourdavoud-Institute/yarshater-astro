@@ -6,7 +6,7 @@ import { navigation } from '@content/navigation';
 import { pages } from '@content/pages';
 import { people } from '@content/people';
 import { posts } from '@content/posts';
-import { publications } from '@content/publications';
+import { works } from '@content/works';
 import { settings } from '@content/settings';
 import { speakers } from '@content/people';
 import { videos } from '@content/videos';
@@ -20,8 +20,8 @@ export const collections = {
     people,
     posts,
     postCategories,
-    publications,
     settings,
     speakers,
     videos,
+    works,
 };

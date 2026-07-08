@@ -9,7 +9,7 @@ import v from 'voca';
 export async function getStaticPaths() {
     const people = await getCollection(
         'people',
-        ({ data }) => data.affiliationType == 'internal'
+        ({ data }) => data.affiliationType == 'internal',
     );
 
     return people.map((person) => ({
@@ -125,8 +125,8 @@ const { person } = Astro.props;
                                                         async (entry) => {
                                                             const linkedPublication =
                                                                 await getEntry(
-                                                                    'publications',
-                                                                    entry._id
+                                                                    'works',
+                                                                    entry._id,
                                                                 );
                                                             if (
                                                                 linkedPublication
@@ -139,7 +139,7 @@ const { person } = Astro.props;
                                                                     />
                                                                 );
                                                             }
-                                                        }
+                                                        },
                                                     )}
                                                 </div>
                                             )
