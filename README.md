@@ -16,6 +16,10 @@ Use this project to make changes to template files, add new site integrations, o
 - Formatting with [Prettier](https://prettier.io/) and linting with [ESLint](https://eslint.org/) + Astro plugin
 - Design elements and icons based on the [UCLA Design Systems](https://designsystem.brand.ucla.edu/) style guide
 
+### Integrations/Extensions
+
+- Adobe PDF Embed API (Yarshater Digital Library) - see [documentation](https://developer.adobe.com/document-services/docs/overview/pdf-embed-api/) and [manage API keys](https://developer.adobe.com/console/4237775/projects)
+
 ## Getting Started
 
 ### 1. Prerequisites
