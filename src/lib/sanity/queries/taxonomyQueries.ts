@@ -29,3 +29,10 @@ export const POST_CATEGORIES_QUERY = groq`*[_type == "postCategory" && $workspac
         []
     )
 }`;
+
+export const PUBLICATION_CATEGORIES_QUERY = groq`*[_type == "publicationCategory" && $workspaceID in workspaces[]._ref] {
+    _id,
+    _type,
+    title,
+    "slug": slug.current
+}`;

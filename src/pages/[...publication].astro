@@ -1,0 +1,292 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+import PageWrapper from '@components/document/PageWrapper.astro';
+import RichTextBlocks from '@components/richText/RichTextBlocks.astro';
+import SanityImage from '@components/SanityImage.astro';
+import {formatBytes} from "@lib/utils/formatBytes";
+
+export async function getStaticPaths() {
+    const publications = await getCollection('publications');
+
+    return publications.map((publication) => ({
+        params: {
+            publication: publication.data.slug,
+        },
+        props: { publication },
+    }));
+}
+
+const { publication } = Astro.props;
+
+const pageNav = [
+    {
+        title: "Overview",
+        slug: "overview"
+    },
+    {
+        title: "View PDF",
+        slug: "pdf"
+    },
+    {
+        title: "About the Author",
+        slug: "author"
+    },
+];
+---
+
+<PageWrapper
+    filterType="publication"
+    footerMargin={true}
+    id={publication.id}
+    template="publicationsShow"
+    title={publication.data.title}
+>
+    <Breadcrumbs collection='publications' style="darker" />
+    <div class="content-wrapper">
+        <div class="with-sidebar">
+            <div class="sidebar-panel">
+                <div class="image-wrapper">
+                    {
+                        publication.data.image ? (
+                            <SanityImage
+                                alt={publication.data.title}
+                                aspectRatio={[6, 9]}
+                                source={publication.data.image}
+                                width={600}
+                            />
+                        ) : (
+                            <img
+                                alt=""
+                                class="fallback-img"
+                                src="/images/yarshater-placeholder-portrait.webp"
+                                width={600}
+                            />
+                        )
+                    }
+                    <div class="details">
+                        <div class="small-title">Publication Details</div>
+                        <dl>
+                            <dt><strong>Date</strong></dt>
+                            <dd>{publication.data.date}</dd>
+                            {publication.data.publisher && (
+                                <dt><strong>Publisher</strong></dt>
+                                <dd>{publication.data.publisher}</dd>
+                            )}
+                            {publication.data.isbn && (
+                                <dt><strong>ISBN</strong></dt>
+                                <dd>{publication.data.isbn}</dd>
+                            )}
+                            {publication.data.categories.length > 0 && (
+                                <dt><strong>Series</strong></dt>
+                                <dd>{publication.data.categories[0].title}</dd>
+                            )}
+                            {publication.data.additionalDetails && (
+                                <dt><strong>Note</strong></dt>
+                                <dd>{publication.data.additionalDetails}</dd>
+                            )}
+                            {publication.data.citation && (
+                                <dt><strong>Citation</strong></dt>
+                                <dd>{publication.data.citation}</dd>
+                            )}
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="main-panel">
+                <header>
+                    <h1>{publication.data.title}</h1>
+                    {
+                        publication.data.subtitle && (
+                            <p class="subtitle">{publication.data.subtitle}</p>
+                        )
+                    }
+                    <div class="authors">
+                        {publication.data.authors.map((author) => (
+                            <span>{author.name}</span>
+                        ))}
+                    </div>
+                </header>
+                <nav aria-label="Page" class="page-nav | cluster">
+                    {pageNav.map((item) => (
+                        <a href={`#${item.slug}`}>{item.title}</a>
+                    ))}
+                </nav>
+                {
+                    publication.data.overview && 
+                    publication.data.overview.blocks && (
+                            <section class="overview-section">
+                                <h2 id="overview">Overview</h2>
+                                <div class="rich-text | flow">
+                                    <RichTextBlocks
+                                        blocks={publication.data.overview.blocks}
+                                    />
+                                </div>
+                            </section>
+                        )
+                }
+                {publication.data.pdf && (
+                    <section class="pdf-section" data-publication-title={publication.data.title} data-publication-url={publication.data.pdf.url}>
+                        <h2 id="pdf">View Publication</h2>
+                        <div class="pdf-window" id="pdf-view"></div>
+                        <a class="download-button button-link with-icon" data-style="primary" href={`${publication.data.pdf.url}`} target="_blank">
+                            <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 15V18H6V15H4V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V15H18ZM17 11L15.59 9.59L13 12.17V4H11V12.17L8.41 9.59L7 11L12 16L17 11Z" />
+                            </svg>
+                            Download PDF ({formatBytes(publication.data.pdf.size)})
+                        </a>
+                    </section>
+                )}
+                {publication.data.authorBio && (
+                        <section class="author-section">
+                            <h2 id="author">About the Author</h2>
+                            <div class="rich-text | flow">
+                                <RichTextBlocks blocks={publication.data.authorBio} />
+                            </div>
+                        </section>
+                    )
+                }
+            </div>
+        </div>
+    </div>
+</PageWrapper>
+
+<style>
+    .content-wrapper {
+        margin-block-start: var(--section-spacing);
+    }
+
+    h1 {
+        margin-block-start: var(--space-xl);
+    }
+
+    .with-sidebar {
+        --sidebar-gap: 4rem;
+        --sidebar-min-width: 22rem;
+        --main-min-width: 55%;
+    }
+
+    .page-nav {
+        --cluster-space: var(--space-m);
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: var(--ucla-white);
+        padding-block: 1rem;
+        margin-block-start: var(--space-xl);
+        border-block-end: 1px solid var(--site-border);
+    }
+
+    .image-wrapper {
+        max-width: 25rem;
+    }
+
+    .subtitle {
+        font-size: var(--step-1);
+        margin-block-start: var(--space-xs);
+    }
+
+    .authors {
+        /* border-block-start: 1px solid var(--site-border); */
+        margin-block-start: var(--space-s);
+        /* padding-block-start: var(--space-s); */
+        font-size: var(--step-1);
+    }
+
+    .rich-text {
+        margin-block-start: var(--space-l);
+    }
+
+    .overview-section {
+        margin-block-start: var(--space-l);
+    }
+
+    :is(.author-section, .pdf-section) {
+        margin-block-start: var(--space-2xl);
+    }
+
+    .cta {
+        margin-block-start: var(--space-xl);
+    }
+
+    .details {
+        margin-block-start: var(--space-s);
+
+        & .small-title {
+            font-size: var(--step--1);
+            color: var(--ucla-primary-blue);
+        }
+
+        & dl {
+            --details-gap: 0.25rem;
+            display: grid;
+            grid-template-columns: 84px 1fr;
+            column-gap: 0px;
+            row-gap: var(--details-gap);
+            font-size: 14px;
+            margin-block-start: var(--space-xs);
+
+            & > * {
+                border-block-end: 1px solid var(--site-border);
+                padding-block-end: var(--details-gap);
+            }
+        }
+
+        & dd {
+            padding-inline-start: 1rem;
+        }
+    }
+    
+    .pdf-window {
+        margin-block-start: var(--space-l);
+        height: 70dvh;
+        border: 1px solid var(--site-border);
+    }
+
+    .download-button {
+        --icon-size: 20px;
+        margin-block-start: var(--space-l);
+    }
+
+    @media screen and (max-width: 1024px) {
+        .with-sidebar {
+            --sidebar-gap: var(--space-xl);
+        }
+
+        h1 {
+            margin: 0;
+        }
+    }
+</style>
+
+<script is:inline>
+    document.addEventListener('adobe_dc_view_sdk.ready', () => {
+        const adobeClientID = '4078d45e87694d58a59e54ff25805ff7';
+        const publication = document.querySelector(".pdf-section");
+        const title = publication.dataset.publicationTitle;
+        const url = publication.dataset.publicationUrl;
+
+        const adobeViewer = new AdobeDC.View({
+            clientId: adobeClientID,
+            divId: 'pdf-view'
+        });
+        adobeViewer.previewFile({
+            content: {
+                location: {
+                    url: url
+                }
+            },
+            metaData: {
+                fileName: title,
+                hasReadOnlyAccess: true
+            },
+        }, {
+            embedMode: 'FULL_WINDOW',
+            focusOnRendering: false,
+            showAnnotationTools: false,
+            showFullScreen: true,
+            showDownloadPDF: true,
+            defaultViewMode: 'FIT_PAGE'
+        })
+    })
+</script>

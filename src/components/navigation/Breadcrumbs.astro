@@ -21,9 +21,10 @@ const events = await getCollection('events');
 const eventCategories = await getCollection('eventCategories');
 const videos = await getCollection('videos');
 const people = await getCollection('people');
-const publications = await getCollection('works');
+const publications = await getCollection('publications');
 const posts = await getCollection('posts');
 const postCategories = await getCollection('postCategories');
+const works = await getCollection('works');
 
 const urlParts = Astro.url.pathname.split('/').filter(Boolean);
 const breadcrumbs: Breadcrumb[] = [
@@ -77,8 +78,8 @@ for (let i = 0; i < urlParts.length; i++) {
                     ({ data }) => data.slug == currentHref,
                 )?.data.title;
                 break;
-            case 'publications':
-                breadcrumb.title = publications.find(({ data }) => {
+            case 'works':
+                breadcrumb.title = works.find(({ data }) => {
                     const slugParts = data.slug
                         .split('/')
                         .filter(Boolean)
@@ -89,6 +90,11 @@ for (let i = 0; i < urlParts.length; i++) {
                         currentHref
                     );
                 })?.data.title;
+                break;
+            case 'publications':
+                breadcrumb.title = publications.find(
+                    ({ data }) => data.slug == currentHref,
+                )?.data.title;
                 break;
             case 'posts':
                 breadcrumb.title = posts.find(

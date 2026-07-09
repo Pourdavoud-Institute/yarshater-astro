@@ -29,7 +29,8 @@ export type BreadcrumbsCollection =
     | 'posts'
     | 'postCategories'
     | 'publications'
-    | 'videos';
+    | 'videos'
+    | 'works';
 
 type ExpandedPageTemplate =
     | typeof PageTemplate
