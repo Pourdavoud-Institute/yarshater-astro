@@ -7,10 +7,15 @@ import { pages } from '@content/pages';
 import { people } from '@content/people';
 import { posts } from '@content/posts';
 import { works } from '@content/works';
+import { publications } from '@content/publications';
 import { settings } from '@content/settings';
 import { speakers } from '@content/people';
 import { videos } from '@content/videos';
-import { eventCategories, postCategories } from '@content/taxonomies';
+import {
+    eventCategories,
+    postCategories,
+    publicationCategories,
+} from '@content/taxonomies';
 
 export const collections = {
     events,
@@ -20,6 +25,8 @@ export const collections = {
     people,
     posts,
     postCategories,
+    publications,
+    publicationCategories,
     settings,
     speakers,
     videos,

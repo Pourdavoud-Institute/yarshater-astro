@@ -4,6 +4,7 @@ import { sanityClient } from '@lib/sanity/client';
 import {
     EVENT_CATEGORIES_QUERY,
     POST_CATEGORIES_QUERY,
+    PUBLICATION_CATEGORIES_QUERY,
 } from '@lib/sanity/queries/taxonomyQueries';
 import type { SanityDocument } from '@sanity/client';
 import { workspaces } from '@lib/sanity/workspaces';
@@ -68,4 +69,28 @@ export const postCategories = defineCollection({
     },
 
     schema: PostCategory,
+});
+
+export const PublicationCategory = z.object({
+    _id: z.string(),
+    _type: z.literal('publicationCategory'),
+    title: z.string(),
+    slug: z.string(),
+});
+
+export const publicationCategories = defineCollection({
+    loader: async () => {
+        const publicationCategories = await sanityClient.fetch<
+            SanityDocument[]
+        >(PUBLICATION_CATEGORIES_QUERY, {
+            workspaceID: workspaces.yarshater.id,
+        });
+
+        return publicationCategories.map((category) => ({
+            id: category._id,
+            ...category,
+        }));
+    },
+
+    schema: PublicationCategory,
 });
