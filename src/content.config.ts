@@ -3,6 +3,7 @@
  */
 import { events } from '@content/events';
 import { navigation } from '@content/navigation';
+import { organizations } from '@content/organizations';
 import { pages } from '@content/pages';
 import { people } from '@content/people';
 import { posts } from '@content/posts';
@@ -21,6 +22,7 @@ export const collections = {
     events,
     eventCategories,
     navigation,
+    organizations,
     pages,
     people,
     posts,
