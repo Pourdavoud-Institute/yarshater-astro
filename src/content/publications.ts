@@ -56,6 +56,7 @@ export const publications = defineCollection({
             .nullish(),
         overview: RichText.nullish(),
         authorBio: RichTextBlocks,
+        sources: RichTextBlocks,
         categories: z.array(
             z.object({
                 _id: z.string(),

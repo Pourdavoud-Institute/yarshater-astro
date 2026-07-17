@@ -32,6 +32,10 @@ const pageNav = [
         title: "About the Author",
         slug: "author"
     },
+    {
+        title: 'Sources, Links & Further Readings',
+        slug: 'sources'
+    }
 ];
 ---
 
@@ -146,6 +150,15 @@ const pageNav = [
                         </section>
                     )
                 }
+                {publication.data.sources && (
+                        <section class="sources-section">
+                            <h2 id="sources">Sources, Links & Further Readings</h2>
+                            <div class="rich-text | flow">
+                                <RichTextBlocks blocks={publication.data.sources} />
+                            </div>
+                        </section>
+                    )
+                }
             </div>
         </div>
     </div>
@@ -201,7 +214,7 @@ const pageNav = [
         margin-block-start: var(--space-l);
     }
 
-    :is(.author-section, .pdf-section) {
+    :is(.author-section, .pdf-section, .sources-section) {
         margin-block-start: var(--space-2xl);
     }
 

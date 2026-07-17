@@ -42,6 +42,13 @@ export const PUBLICATIONS_QUERY = groq`*[_type == "publication" && $workspaceID 
             _type == "richTextLink" => ${LINK_PROJECTION}
         }
     },
+    sources[] {
+        ...,
+        markDefs[] {
+            ...,
+            _type == "richTextLink" => ${LINK_PROJECTION}
+        }
+    },
     "categories": coalesce(
         categories[]->{
             _id,
