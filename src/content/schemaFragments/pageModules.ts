@@ -47,12 +47,15 @@ export type CardList = z.infer<typeof CardList>;
 /** COLLECTION LIST */
 const CollectionList = z.object({
     _type: z.literal('collectionList'),
-    heading: z.string(),
-    collection: z.union([
-        z.literal('post'),
-        z.literal('event'),
-        z.literal('video'),
-    ]),
+    heading: z.string().nullish(),
+    selection: z.enum(['auto', 'manual']),
+    collection: z.enum(['event', 'post', 'publication', 'video']),
+    entries: z.array(
+        z.object({
+            _id: z.string(),
+            _type: z.enum(['event', 'post', 'publication', 'video']),
+        }),
+    ),
     options: z.object({
         sectionMargin: z.boolean().nullish(),
     }),

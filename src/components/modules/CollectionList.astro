@@ -1,7 +1,58 @@
 ---
+import type { CollectionList } from '@content/schemaFragments/pageModules';
+import { getEntry } from 'astro:content';
+import DigitalLibraryPreview from '@components/publications/DigitalLibraryPreview.astro';
+import v from 'voca';
 
+interface Props {
+    module: CollectionList;
+}
+
+const { module } = Astro.props;
 ---
 
-<section data-module="collectionList">
-    <div class="content-wrapper"></div>
+<section
+    class:list={[{ 'section-margin': module.options.sectionMargin }]}
+    data-module={module._type}
+>
+    <div class="content-wrapper">
+        {
+            module.heading && (
+                <h2 class="heading" id={v.slugify(module.heading)}>
+                    {module.heading}
+                </h2>
+            )
+        }
+        <div class="entries | fluid-grid" data-collection={module.collection}>
+            {
+                module.selection === 'manual' &&
+                    module.entries.map(async (e) => {
+                        switch (e._type) {
+                            case 'publication':
+                                const entry = await getEntry(
+                                    'publications',
+                                    e._id,
+                                );
+                                if (entry) {
+                                    return (
+                                        <DigitalLibraryPreview
+                                            publication={entry}
+                                        />
+                                    );
+                                }
+                            default:
+                                break;
+                        }
+                    })
+            }
+        </div>
+    </div>
 </section>
+
+<style>
+    .entries {
+        &[data-collection='publication'] {
+            --grid-item-min-size: 14rem;
+        }
+    }
+</style>

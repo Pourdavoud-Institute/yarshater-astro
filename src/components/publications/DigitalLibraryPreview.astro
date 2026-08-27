@@ -1,0 +1,94 @@
+---
+/* Publication preview component for Digital Library scanned books collection */
+import type { CollectionEntry } from 'astro:content';
+import SanityImage from '@components/SanityImage.astro';
+
+interface Props {
+    HeadingTag?: 'h2' | 'h3' | 'p';
+    publication: CollectionEntry<'publications'>;
+}
+
+const { HeadingTag = 'h3', publication } = Astro.props;
+---
+
+<article class="publication-preview">
+    <a class="image-wrapper" href={publication.data.slug}>
+        {
+            publication.data.image ? (
+                <SanityImage
+                    alt={publication.data.title}
+                    aspectRatio={[6, 9]}
+                    source={publication.data.image}
+                    width={600}
+                />
+            ) : (
+                <img
+                    alt=""
+                    class="fallback-img"
+                    src="/images/pourdavoud-placeholder-portrait.webp"
+                    width={600}
+                />
+            )
+        }
+    </a>
+    <div class="text-wrapper | flow" data-tempo="vivace">
+        <HeadingTag class="title">
+            <a class="title-link" href={publication.data.slug}
+                >{publication.data.title}</a
+            >
+        </HeadingTag>
+        <div class="authors">
+            {publication.data.authors.map((author) => author.name).join(', ')}
+        </div>
+        <div class="info">
+            <span
+                >{
+                    publication.data.categories
+                        .map((category) => category.title)
+                        .join(', ')
+                }</span
+            >
+            <span>{' '}({publication.data.date})</span>
+        </div>
+    </div>
+</article>
+
+<style>
+    .title {
+        font-size: var(--step-0);
+        font-family: var(--font-primary);
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .authors {
+        font-size: var(--step--1);
+    }
+
+    .info {
+        color: var(--site-text--light);
+        font-size: var(--step--1);
+    }
+
+    .image-wrapper {
+        & img {
+            box-shadow: var(--shadow-none);
+            transition: all 0.2s;
+        }
+
+        &:hover img {
+            box-shadow: var(--shadow-large);
+            transform: translateY(-0.75rem);
+        }
+    }
+
+    .text-wrapper {
+        margin-block-start: var(--space-xs);
+    }
+
+    @media screen and (max-width: 640px) {
+        .title-link {
+            font-size: var(--step-2);
+        }
+    }
+</style>

@@ -59,23 +59,17 @@ export const CALLOUT_TEXT_PROJECTION = groq`_type == "calloutText" => {
 
 export const COLLECTION_LIST_PROJECTION = groq`_type == "collectionList" => {
     heading,
+    selection,
     collection,
-    customSelection == true => {
-        "collectionEntries": coalesce(
-            collectionEntries[]->{
-                _id
-            },
-            []
-        )
-    },
+    "entries": coalesce(entries[]-> {
+        _id,
+        _type
+    }, []),
     "cta": coalesce(
         cta[] ${LINK_PROJECTION},
         []
     ),
     "options": {
-        displayCount,
-        customSelection,
-        columns,
         sectionMargin
     }
 }`;
