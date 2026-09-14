@@ -18,6 +18,7 @@ interface Props {
 }
 
 const { title, seo, og } = Astro.props;
+const isHome = Astro.url.pathname === '/';
 ---
 
 <!doctype html>
@@ -29,7 +30,7 @@ const { title, seo, og } = Astro.props;
         <HeadAssets />
     </head>
     <body>
-        <SiteHeader />
+        <SiteHeader style={isHome ? 'transparent' : 'default'} />
         <slot />
         <SiteFooter />
     </body>
