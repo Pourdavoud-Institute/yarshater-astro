@@ -25,6 +25,7 @@ export type BreadcrumbsStyle =
 export type BreadcrumbsCollection =
     | 'events'
     | 'eventCategories'
+    | 'journalVolumes'
     | 'organizations'
     | 'pages'
     | 'people'

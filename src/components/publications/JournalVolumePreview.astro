@@ -1,0 +1,94 @@
+---
+import {
+    getJournalVolumeTitle,
+    getJournalVolumeURL,
+} from '@lib/utils/journals';
+import type { CollectionEntry } from 'astro:content';
+import SanityImage from '@components/SanityImage.astro';
+import { getEntry } from 'astro:content';
+
+interface Props {
+    HeadingTag?: 'h2' | 'h3' | 'p';
+    volume: CollectionEntry<'journalVolumes'>;
+}
+
+const { HeadingTag = 'h3', volume } = Astro.props;
+
+const journal = await getEntry('journals', volume.data.journalReference);
+
+const title = getJournalVolumeTitle(volume, journal);
+const url = getJournalVolumeURL(volume, journal, '/publications');
+---
+
+<article class="journal-volume-preview">
+    <a class="image-wrapper" href={url}>
+        {
+            volume.data.image ? (
+                <SanityImage
+                    alt={title}
+                    aspectRatio={[3, 4]}
+                    classes="image"
+                    source={volume.data.image}
+                    width={300}
+                />
+            ) : (
+                <img
+                    alt=""
+                    class="fallback-img"
+                    src="/images/pourdavoud-placeholder-portrait.webp"
+                    width={600}
+                />
+            )
+        }
+    </a>
+    <div class="text-wrapper flow" data-tempo="prestissimo">
+        <HeadingTag class="title">
+            <a class="title-link" href={url}>{title}</a>
+        </HeadingTag>
+        <p class="info | cluster">
+            {
+                volume.data.publicationDate && (
+                    <span>{volume.data.publicationDate}</span>
+                )
+            }
+            {
+                volume.data.entries.length > 0 && (
+                    <>
+                        <span class="divider">•</span>
+                        <span>{volume.data.entries.length} Articles</span>
+                    </>
+                )
+            }
+        </p>
+    </div>
+</article>
+
+<style>
+    .journal-volume-preview {
+        display: grid;
+        grid-template-columns: 6rem 1fr;
+        gap: var(--space-m);
+        align-items: center;
+    }
+
+    .title {
+        font-size: var(--step-1);
+    }
+
+    .info {
+        --cluster-space: 0.5rem;
+        font-size: var(--step--1);
+    }
+
+    .divider {
+        color: var(--ucla-primary-blue);
+    }
+
+    .image {
+        transition: filter 0.2s;
+
+        &:hover {
+            filter: brightness(0.85);
+        }
+    }
+</style>

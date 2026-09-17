@@ -49,11 +49,23 @@ const CollectionList = z.object({
     _type: z.literal('collectionList'),
     heading: z.string().nullish(),
     selection: z.enum(['auto', 'manual']),
-    collection: z.enum(['event', 'post', 'publication', 'video']),
+    collection: z.enum([
+        'event',
+        'journalVolume',
+        'post',
+        'publication',
+        'video',
+    ]),
     entries: z.array(
         z.object({
             _id: z.string(),
-            _type: z.enum(['event', 'post', 'publication', 'video']),
+            _type: z.enum([
+                'event',
+                'journalVolume',
+                'post',
+                'publication',
+                'video',
+            ]),
         }),
     ),
     options: z.object({
