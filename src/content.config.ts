@@ -17,6 +17,7 @@ import {
     postCategories,
     publicationCategories,
 } from '@content/taxonomies';
+import { journals, journalVolumes } from '@content/journals';
 
 export const collections = {
     events,
@@ -29,6 +30,8 @@ export const collections = {
     postCategories,
     publications,
     publicationCategories,
+    journals,
+    journalVolumes,
     settings,
     speakers,
     videos,

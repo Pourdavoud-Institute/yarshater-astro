@@ -1,7 +1,8 @@
 ---
 import type { CollectionList } from '@content/schemaFragments/pageModules';
-import { getEntry } from 'astro:content';
 import DigitalLibraryPreview from '@components/publications/DigitalLibraryPreview.astro';
+import JournalVolumePreview from '@components/publications/JournalVolumePreview.astro';
+import { getEntry } from 'astro:content';
 import v from 'voca';
 
 interface Props {
@@ -28,7 +29,7 @@ const { module } = Astro.props;
                 module.selection === 'manual' &&
                     module.entries.map(async (e) => {
                         switch (e._type) {
-                            case 'publication':
+                            case 'publication': {
                                 const entry = await getEntry(
                                     'publications',
                                     e._id,
@@ -40,6 +41,20 @@ const { module } = Astro.props;
                                         />
                                     );
                                 }
+                                break;
+                            }
+                            case 'journalVolume': {
+                                const entry = await getEntry(
+                                    'journalVolumes',
+                                    e._id,
+                                );
+                                if (entry) {
+                                    return (
+                                        <JournalVolumePreview volume={entry} />
+                                    );
+                                }
+                                break;
+                            }
                             default:
                                 break;
                         }
@@ -50,6 +65,10 @@ const { module } = Astro.props;
 </section>
 
 <style>
+    .heading {
+        margin-block-end: var(--space-l);
+    }
+
     .entries {
         &[data-collection='publication'] {
             --grid-item-min-size: 14rem;

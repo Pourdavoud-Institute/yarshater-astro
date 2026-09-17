@@ -1,0 +1,45 @@
+---
+import {
+    getJournalVolumeTitle,
+    getJournalVolumeURL,
+} from '@lib/utils/journals';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+import PageWrapper from '@components/document/PageWrapper.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+    const journalVolumes = await getCollection('journalVolumes');
+    const journals = await getCollection('journals');
+
+    return journalVolumes.map((volume) => {
+        const linkedJournal = journals.find(
+            (vol) => vol.id === volume.data.journalReference,
+        );
+        const url = getJournalVolumeURL(volume, linkedJournal, '/publications');
+
+        return {
+            params: {
+                journalVolume: url,
+            },
+            props: { volume, journal: linkedJournal },
+        };
+    });
+}
+
+const { volume, journal } = Astro.props;
+
+const title = getJournalVolumeTitle(volume, journal);
+---
+
+<PageWrapper
+    filterType="journalVolume"
+    footerMargin={true}
+    id={volume.id}
+    template="journalVolumesShow"
+    title={title}
+>
+    <Breadcrumbs collection="journalVolumes" />
+    <div class="content-wrapper">
+        <h1>{title}</h1>
+    </div>
+</PageWrapper>

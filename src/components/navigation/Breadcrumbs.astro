@@ -1,6 +1,7 @@
 ---
 import type { BreadcrumbsCollection, BreadcrumbsStyle } from '@lib/utils/types';
 import { getCollection } from 'astro:content';
+import { getJournalVolumeTitle } from '@lib/utils/journals';
 import v from 'voca';
 
 type Breadcrumb = {
@@ -19,6 +20,8 @@ const { style = 'default', collection = 'pages' } = Astro.props;
 const pages = await getCollection('pages');
 const events = await getCollection('events');
 const eventCategories = await getCollection('eventCategories');
+const journals = await getCollection('journals');
+const journalVolumes = await getCollection('journalVolumes');
 const organizations = await getCollection('organizations');
 const people = await getCollection('people');
 const publications = await getCollection('publications');
@@ -96,6 +99,9 @@ for (let i = 0; i < urlParts.length; i++) {
                         currentHref
                     );
                 })?.data.title;
+                break;
+            case 'journalVolumes':
+                // const linkedJournal = journals.find((vol) => vol.id === )
                 break;
             case 'publications':
                 breadcrumb.title = publications.find(
