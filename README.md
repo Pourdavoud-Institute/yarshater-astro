@@ -19,6 +19,7 @@ Use this project to make changes to template files, add new site integrations, o
 ### Integrations/Extensions
 
 - Adobe PDF Embed API (Yarshater Digital Library) - see [documentation](https://developer.adobe.com/document-services/docs/overview/pdf-embed-api/) and [manage API keys](https://developer.adobe.com/console/4237775/projects)
+- NOTE: Use `dtsaunders@g.ucla.edu` email account for system administrator/developer console access
 
 ## Getting Started
 
