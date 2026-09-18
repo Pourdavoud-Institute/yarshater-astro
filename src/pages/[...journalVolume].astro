@@ -5,6 +5,8 @@ import {
 } from '@lib/utils/journals';
 import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
 import PageWrapper from '@components/document/PageWrapper.astro';
+import SanityImage from '@components/SanityImage.astro';
+import { formatBytes } from '@lib/utils/formatBytes';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -29,6 +31,19 @@ export async function getStaticPaths() {
 const { volume, journal } = Astro.props;
 
 const title = getJournalVolumeTitle(volume, journal);
+
+const pageNav = [
+    {
+        title: 'Table of Contents',
+        slug: 'articles',
+    },
+    {
+        title: 'View Volume PDF',
+        slug: 'pdf',
+    },
+];
+
+// TODO: automate citation from available fields, remove manual citation field in Sanity
 ---
 
 <PageWrapper
@@ -36,10 +51,317 @@ const title = getJournalVolumeTitle(volume, journal);
     footerMargin={true}
     id={volume.id}
     template="journalVolumesShow"
-    title={title}
+    title={`${title} • Publications`}
 >
     <Breadcrumbs collection="journalVolumes" />
     <div class="content-wrapper">
-        <h1>{title}</h1>
+        <div class="with-sidebar">
+            <div class="sidebar-panel">
+                <div class="image-wrapper">
+                    {
+                        volume.data.image ? (
+                            <SanityImage
+                                alt={title}
+                                aspectRatio={[6, 9]}
+                                source={volume.data.image}
+                                width={600}
+                            />
+                        ) : (
+                            <img
+                                alt=""
+                                class="fallback-img"
+                                src="/images/yarshater-placeholder-portrait.webp"
+                                width={600}
+                            />
+                        )
+                    }
+                    <div class="details">
+                        <div class="small-title">Publication Details</div>
+                        <dl>
+                            <dt><strong>Vol. Number</strong></dt>
+                            <dd>{volume.data.volumeNumber}</dd>
+                            {
+                                volume.data.publicationDate && (
+                                    <>
+                                        <dt>
+                                            <strong>Date</strong>
+                                        </dt>
+                                        <dd>{volume.data.publicationDate}</dd>
+                                    </>
+                                )
+                            }
+                            <dt><strong>Page Count</strong></dt>
+                            <dd>{volume.data.pageCount}</dd>
+                            {
+                                volume.data.publicationDetails && (
+                                    <>
+                                        <dt>
+                                            <strong>Vol. Details</strong>
+                                        </dt>
+                                        <dd>
+                                            {volume.data.publicationDetails}
+                                        </dd>
+                                    </>
+                                )
+                            }
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="main-panel">
+                <header>
+                    <h1>{journal?.data.title ?? title}</h1>
+                    <p class="subtitle">Volume {volume.data.volumeNumber}</p>
+                </header>
+                <nav aria-label="Page" class="page-nav | cluster">
+                    {
+                        pageNav.map((item) => (
+                            <a href={`#${item.slug}`}>{item.title}</a>
+                        ))
+                    }
+                </nav>
+                <section class="articles-section">
+                    <h2 id="articles">Table of Contents</h2>
+                    <div class="article-entries">
+                        {
+                            volume.data.entries.map((entry) => (
+                                <article
+                                    class="article | flow"
+                                    data-tempo="vivace"
+                                >
+                                    <h3 class="title">
+                                        <span>{entry.title}</span>{' '}
+                                        <span class="page-tag">
+                                            (pp. {entry.startPage}–
+                                            {entry.endPage})
+                                        </span>
+                                    </h3>
+                                    <p class="authors">
+                                        {entry.authors
+                                            .map((author) => {
+                                                if (author.institution) {
+                                                    return `${author.name} (${author.institution})`;
+                                                } else {
+                                                    return author.name;
+                                                }
+                                            })
+                                            .join(', ')}
+                                    </p>
+                                    {entry.pdf && (
+                                        <p class="cluster | with-icon">
+                                            <svg
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                width="24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path d="M18 15V18H6V15H4V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V15H18ZM17 11L15.59 9.59L13 12.17V4H11V12.17L8.41 9.59L7 11L12 16L17 11Z" />
+                                            </svg>
+                                            <a
+                                                href={`${entry.pdf.url}`}
+                                                target="_blank"
+                                            >
+                                                Download Article PDF (
+                                                {formatBytes(entry.pdf.size)})
+                                            </a>
+                                        </p>
+                                    )}
+                                </article>
+                            ))
+                        }
+                    </div>
+                </section>
+                {
+                    volume.data.pdf && (
+                        <section
+                            class="pdf-section"
+                            data-volume-title={title}
+                            data-volume-url={volume.data.pdf.url}
+                        >
+                            <h2 id="pdf">View Volume</h2>
+                            <div class="pdf-window" id="pdf-view" />
+                            <a
+                                class="download-button button-link with-icon"
+                                data-style="primary"
+                                href={`${volume.data.pdf.url}`}
+                                target="_blank"
+                            >
+                                <svg
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path d="M18 15V18H6V15H4V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V15H18ZM17 11L15.59 9.59L13 12.17V4H11V12.17L8.41 9.59L7 11L12 16L17 11Z" />
+                                </svg>
+                                Download Volume PDF (
+                                {formatBytes(volume.data.pdf.size)})
+                            </a>
+                        </section>
+                    )
+                }
+            </div>
+        </div>
     </div>
 </PageWrapper>
+
+<style>
+    .content-wrapper {
+        margin-block-start: var(--section-spacing);
+    }
+
+    h1 {
+        margin-block-start: var(--space-xl);
+    }
+
+    .with-sidebar {
+        --sidebar-gap: 4rem;
+        --sidebar-min-width: 22rem;
+        --main-min-width: 55%;
+    }
+
+    .page-nav {
+        --cluster-space: var(--space-m);
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: var(--ucla-white);
+        padding-block: 1rem;
+        margin-block-start: var(--space-xl);
+        border-block-end: 1px solid var(--site-border);
+    }
+
+    .image-wrapper {
+        max-width: 25rem;
+    }
+
+    .subtitle {
+        font-size: var(--step-1);
+        margin-block-start: var(--space-s);
+    }
+
+    .rich-text {
+        margin-block-start: var(--space-l);
+    }
+
+    :is(.pdf-section, .articles-section) {
+        margin-block-start: var(--space-2xl);
+    }
+
+    .cta {
+        margin-block-start: var(--space-xl);
+    }
+
+    .details {
+        margin-block-start: var(--space-s);
+
+        & .small-title {
+            font-size: var(--step--1);
+            color: var(--ucla-primary-blue);
+        }
+
+        & dl {
+            --details-gap: 0.25rem;
+            display: grid;
+            grid-template-columns: 84px 1fr;
+            column-gap: 0px;
+            row-gap: var(--details-gap);
+            font-size: 14px;
+            margin-block-start: var(--space-xs);
+
+            & > * {
+                border-block-end: 1px solid var(--site-border);
+                padding-block-end: var(--details-gap);
+            }
+        }
+
+        & dd {
+            padding-inline-start: 1rem;
+        }
+    }
+
+    .pdf-window {
+        margin-block-start: var(--space-l);
+        height: 70dvh;
+        border: 1px solid var(--site-border);
+    }
+
+    .download-button {
+        --icon-size: 20px;
+        margin-block-start: var(--space-l);
+    }
+
+    .article-entries {
+        margin-block-start: var(--space-l);
+
+        & > * + * {
+            margin-block-start: var(--space-m);
+            padding-block-start: var(--space-m);
+            border-block-start: 1px solid var(--site-border);
+        }
+    }
+
+    .article {
+        & .title {
+            font-size: var(--step-1);
+            font-weight: 700;
+        }
+
+        & .cluster {
+            --cluster-space: 0.375rem;
+            font-size: var(--step--1);
+            color: var(--ucla-primary-blue);
+        }
+    }
+
+    .page-tag {
+        /* font-family: var(--font-primary); */
+        font-weight: 400;
+        color: var(--site-text--light);
+    }
+
+    @media screen and (max-width: 1024px) {
+        .with-sidebar {
+            --sidebar-gap: var(--space-xl);
+        }
+
+        h1 {
+            margin: 0;
+        }
+    }
+</style>
+
+<script is:inline>
+    document.addEventListener('adobe_dc_view_sdk.ready', () => {
+        const adobeClientID = '45824f6b17cc43379873f3d7879c21d5';
+        const publication = document.querySelector('.pdf-section');
+        const title = publication.dataset.publicationTitle;
+        const url = publication.dataset.publicationUrl;
+
+        const adobeViewer = new AdobeDC.View({
+            clientId: adobeClientID,
+            divId: 'pdf-view',
+        });
+        adobeViewer.previewFile(
+            {
+                content: {
+                    location: {
+                        url: url,
+                    },
+                },
+                metaData: {
+                    fileName: title,
+                    hasReadOnlyAccess: true,
+                },
+            },
+            {
+                embedMode: 'FULL_WINDOW',
+                focusOnRendering: false,
+                showAnnotationTools: false,
+                showFullScreen: true,
+                showDownloadPDF: true,
+                defaultViewMode: 'FIT_PAGE',
+            },
+        );
+    });
+</script>

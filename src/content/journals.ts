@@ -34,6 +34,8 @@ const JournalArticle = z.object({
         }),
     ),
     pageCount: z.number(),
+    startPage: z.string(),
+    endPage: z.string(),
     citation: RichTextBlocks,
     pdf: z
         .object({

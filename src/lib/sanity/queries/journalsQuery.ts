@@ -34,8 +34,10 @@ export const JOURNAL_VOLUMES_QUERY = groq`*[_type == "journalVolume" && $workspa
             institution
         }, []),
         "pageCount": coalesce(pageCount, 0),
+        "startPage": coalesce(pages.startPage, ''),
+        "endPage": coalesce(pages.endPage, ''),
         "citation": coalesce(citation, []),
-        "pdf": publicationPDF.asset->{
+        "pdf": articlePDF.asset->{
             _id,
             assetId,
             mimeType,
