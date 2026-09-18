@@ -101,7 +101,9 @@ for (let i = 0; i < urlParts.length; i++) {
                 })?.data.title;
                 break;
             case 'journalVolumes':
-                // const linkedJournal = journals.find((vol) => vol.id === )
+                if (urlPart.includes('vol-')) {
+                    breadcrumb.title = `Vol. ${urlPart.split('-').slice(-1)}`;
+                }
                 break;
             case 'publications':
                 breadcrumb.title = publications.find(

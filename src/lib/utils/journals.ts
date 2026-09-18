@@ -26,7 +26,7 @@ export function getJournalVolumeURL(
     const uri = volume.data.volumeNumber ?? volume.data.slug;
 
     if (prefix) {
-        return `${prefix}${journalSlug}/vol${uri}`;
+        return `${prefix}${journalSlug}/vol-${uri}`;
     }
-    return `${journalSlug}/vol${uri}`;
+    return `${journalSlug}/vol-${uri}`;
 }
