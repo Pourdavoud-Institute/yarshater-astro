@@ -120,57 +120,62 @@ const pageNav = [
                         ))
                     }
                 </nav>
-                <section class="articles-section">
-                    <h2 id="articles">Table of Contents</h2>
-                    <div class="article-entries">
-                        {
-                            volume.data.entries.map((entry) => (
-                                <article
-                                    class="article | flow"
-                                    data-tempo="vivace"
-                                >
-                                    <h3 class="title">
-                                        <span>{entry.title}</span>{' '}
-                                        <span class="page-tag">
-                                            (pp. {entry.startPage}–
-                                            {entry.endPage})
-                                        </span>
-                                    </h3>
-                                    <p class="authors">
-                                        {entry.authors
-                                            .map((author) => {
-                                                if (author.institution) {
-                                                    return `${author.name} (${author.institution})`;
-                                                } else {
-                                                    return author.name;
-                                                }
-                                            })
-                                            .join(', ')}
-                                    </p>
-                                    {entry.pdf && (
-                                        <p class="cluster | with-icon">
-                                            <svg
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                width="24"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path d="M18 15V18H6V15H4V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V15H18ZM17 11L15.59 9.59L13 12.17V4H11V12.17L8.41 9.59L7 11L12 16L17 11Z" />
-                                            </svg>
-                                            <a
-                                                href={`${entry.pdf.url}`}
-                                                target="_blank"
-                                            >
-                                                Download Article PDF (
-                                                {formatBytes(entry.pdf.size)})
-                                            </a>
+                {
+                    volume.data.entries.length > 0 && (
+                        <section class="articles-section">
+                            <h2 id="articles">Table of Contents</h2>
+                            <div class="article-entries">
+                                {volume.data.entries.map((entry) => (
+                                    <article
+                                        class="article | flow"
+                                        data-tempo="vivace"
+                                    >
+                                        <h3 class="title">
+                                            <span>{entry.title}</span>{' '}
+                                            <span class="page-tag">
+                                                (pp. {entry.startPage}–
+                                                {entry.endPage})
+                                            </span>
+                                        </h3>
+                                        <p class="authors">
+                                            {entry.authors
+                                                .map((author) => {
+                                                    if (author.institution) {
+                                                        return `${author.name} (${author.institution})`;
+                                                    } else {
+                                                        return author.name;
+                                                    }
+                                                })
+                                                .join(', ')}
                                         </p>
-                                    )}
-                                </article>
-                            ))
-                        }
-                    </div>
-                </section>
+                                        {entry.pdf && (
+                                            <p class="cluster | with-icon">
+                                                <svg
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    width="24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path d="M18 15V18H6V15H4V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V15H18ZM17 11L15.59 9.59L13 12.17V4H11V12.17L8.41 9.59L7 11L12 16L17 11Z" />
+                                                </svg>
+                                                <a
+                                                    href={`${entry.pdf.url}`}
+                                                    target="_blank"
+                                                >
+                                                    Download Article PDF (
+                                                    {formatBytes(
+                                                        entry.pdf.size,
+                                                    )}
+                                                    )
+                                                </a>
+                                            </p>
+                                        )}
+                                    </article>
+                                ))}
+                            </div>
+                        </section>
+                    )
+                }
                 {
                     volume.data.pdf && (
                         <section
