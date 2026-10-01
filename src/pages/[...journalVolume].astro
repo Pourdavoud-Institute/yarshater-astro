@@ -43,6 +43,14 @@ const pageNav = [
     },
 ];
 
+// const pdfRes = await fetch(volume.data.pdfLink, {
+//     method: 'GET',
+// });
+// if (pdfRes.ok) {
+//     console.log(pdfRes);
+//     console.log(formatBytes(pdfRes.headers.get('content-length')));
+// }
+
 // TODO: automate citation from available fields, remove manual citation field in Sanity
 ---
 
@@ -148,7 +156,7 @@ const pageNav = [
                                                 })
                                                 .join(', ')}
                                         </p>
-                                        {entry.pdf && (
+                                        {entry.pdfLink && (
                                             <p class="cluster | with-icon">
                                                 <svg
                                                     height="24"
@@ -159,14 +167,13 @@ const pageNav = [
                                                     <path d="M18 15V18H6V15H4V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V15H18ZM17 11L15.59 9.59L13 12.17V4H11V12.17L8.41 9.59L7 11L12 16L17 11Z" />
                                                 </svg>
                                                 <a
-                                                    href={`${entry.pdf.url}`}
+                                                    href={`${entry.pdfLink}`}
                                                     target="_blank"
                                                 >
-                                                    Download Article PDF (
-                                                    {formatBytes(
-                                                        entry.pdf.size,
-                                                    )}
-                                                    )
+                                                    Download Article PDF{' '}
+                                                    {/* <span>
+                                                        ({formatBytes(1000000)})
+                                                    </span> */}
                                                 </a>
                                             </p>
                                         )}
@@ -177,18 +184,18 @@ const pageNav = [
                     )
                 }
                 {
-                    volume.data.pdf && (
+                    volume.data.pdfLink && (
                         <section
                             class="pdf-section"
                             data-volume-title={title}
-                            data-volume-url={volume.data.pdf.url}
+                            data-volume-url={volume.data.pdfLink}
                         >
                             <h2 id="pdf">View Volume</h2>
                             <div class="pdf-window" id="pdf-view" />
                             <a
                                 class="download-button button-link with-icon"
                                 data-style="primary"
-                                href={`${volume.data.pdf.url}`}
+                                href={`${volume.data.pdfLink}`}
                                 target="_blank"
                             >
                                 <svg
@@ -199,8 +206,8 @@ const pageNav = [
                                 >
                                     <path d="M18 15V18H6V15H4V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V15H18ZM17 11L15.59 9.59L13 12.17V4H11V12.17L8.41 9.59L7 11L12 16L17 11Z" />
                                 </svg>
-                                Download Volume PDF (
-                                {formatBytes(volume.data.pdf.size)})
+                                Download Volume PDF{' '}
+                                {/* <span>({formatBytes(1000000)})</span> */}
                             </a>
                         </section>
                     )

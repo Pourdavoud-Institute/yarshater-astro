@@ -17,6 +17,7 @@ export const JOURNAL_VOLUMES_QUERY = groq`*[_type == "journalVolume" && $workspa
     publicationDate,
     "pageCount": coalesce(pageCount, 0),
     publicationDetails,
+    pdfLink,
     "pdf": publicationPDF.asset->{
         _id,
         assetId,
@@ -37,6 +38,7 @@ export const JOURNAL_VOLUMES_QUERY = groq`*[_type == "journalVolume" && $workspa
         "startPage": coalesce(pages.startPage, ''),
         "endPage": coalesce(pages.endPage, ''),
         "citation": coalesce(citation, []),
+        pdfLink,
         "pdf": articlePDF.asset->{
             _id,
             assetId,
