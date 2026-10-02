@@ -37,6 +37,7 @@ const JournalArticle = z.object({
     startPage: z.string(),
     endPage: z.string(),
     citation: RichTextBlocks,
+    pdfLink: z.string().nullish(),
     pdf: z
         .object({
             _id: z.string(),
@@ -69,6 +70,7 @@ export const journalVolumes = defineCollection({
         publicationDate: z.string().nullish(),
         pageCount: z.number(),
         publicationDetails: z.string().nullish(),
+        pdfLink: z.string().nullish(),
         pdf: z
             .object({
                 _id: z.string(),
