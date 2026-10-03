@@ -19,12 +19,12 @@ const journal = await getEntry('journals', volume.data.journalReference);
 const title = getJournalVolumeTitle(volume, journal);
 const url = getJournalVolumeURL(volume, journal, '/publications');
 
-let numberOfArticles = 0;
-for (const article of volume.data.entries) {
-    if (article.title != 'Front Matter') {
-        numberOfArticles++;
-    }
-}
+// let numberOfArticles = 0;
+// for (const article of volume.data.entries) {
+//     if (article.title != 'Front Matter') {
+//         numberOfArticles++;
+//     }
+// }
 ---
 
 <article class="journal-volume-preview">
@@ -62,7 +62,7 @@ for (const article of volume.data.entries) {
                 volume.data.entries.length > 0 && (
                     <>
                         <span class="divider">•</span>
-                        <span>{numberOfArticles} Articles</span>
+                        <span>{volume.data.entries.length} Articles</span>
                     </>
                 )
             }
